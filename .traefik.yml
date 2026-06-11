@@ -1,7 +1,7 @@
 displayName: Ip filter or Basic auth
 type: middleware
 
-import: github.com/alexandreh2ag/traefik-ipfilter-basicauth
+import: github.com/Involve-Digital/traefik-ipfilter-basicauth
 
 summary: 'Restricts access to your services by ip whitelist or basic auth'
 

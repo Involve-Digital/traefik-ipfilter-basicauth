@@ -11,7 +11,7 @@ Ip Filter - Basic auth is a middleware plugin for [Traefik](https://github.com/t
   token = "xxxx"
 
 [experimental.plugins.ipFilter_basicAuth]
-  modulename = "github.com/alexandreh2ag/traefik-ipfilter-basicauth"
+  modulename = "github.com/Involve-Digital/traefik-ipfilter-basicauth"
   version = "vX.X.X"
 ```
 

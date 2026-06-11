@@ -1,4 +1,4 @@
-module github.com/alexandreh2ag/traefik-ipfilter-basicauth
+module github.com/Involve-Digital/traefik-ipfilter-basicauth
 
 go 1.17
 
