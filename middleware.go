@@ -84,12 +84,13 @@ func New(ctx context.Context, next http.Handler, config *Config, name string) (h
 
 func (m *Middleware) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	user := ""
-	if req.RemoteAddr == "" {
-		fmt.Println("RemoteAddr is empty")
+	clientIP := getClientIPForWhitelist(req)
+	if clientIP == "" {
+		fmt.Println("Client IP is empty")
 		return
 	}
 
-	err := m.whiteLister.IsAuthorized(req.RemoteAddr)
+	err := m.whiteLister.IsAuthorized(clientIP)
 	if err != nil {
 		fmt.Println("Try basic auth")
 		ok := false
@@ -117,6 +118,18 @@ func (m *Middleware) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 
 	fmt.Println("Request authorized")
 	m.next.ServeHTTP(rw, req)
+}
+
+func getClientIPForWhitelist(req *http.Request) string {
+	if ip := strings.TrimSpace(req.Header.Get("X-Real-Ip")); ip != "" {
+		return ip
+	}
+
+	if ip := strings.TrimSpace(req.Header.Get("X-Forwarded-For")); ip != "" {
+		return strings.TrimSpace(strings.Split(ip, ",")[0])
+	}
+
+	return req.RemoteAddr
 }
 
 func (m *Middleware) secretBasic(user, realm string) string {
